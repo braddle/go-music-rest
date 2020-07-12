@@ -16,8 +16,8 @@ FROM alpine:latest as production
 
 RUN apk --no-cache add ca-certificates
 COPY --from=build /http-service ./
-RUN chmod +x ./http-service
+RUN chmod +x /http-service
 
-ENTRYPOINT ["./http-service"]
+ENTRYPOINT ["/http-service"]
 
 EXPOSE 8080
