@@ -5,5 +5,7 @@ version: "3"
 services:
   http:
     image: template_test
+    environment:
+      PORT: 8080
     ports:
       - "8080:8080"
