@@ -106,6 +106,30 @@ paths:
                       $ref: '#/components/schemas/Artist'
       operationId: get-artist
       description: Get a list of artists
+  '/artist/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-artist-id
+  '/artist/{id}/album':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-artist-id-album
 components:
   schemas:
     Artist:
