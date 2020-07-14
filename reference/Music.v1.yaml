@@ -90,13 +90,16 @@ paths:
                   links:
                     type: array
                     items:
-                      type: object
+                      $ref: '#/components/schemas/SirenLink'
                   actions:
                     type: array
                     items:
-                      type: object
+                      $ref: '#/components/schemas/SirenAction'
                   properties:
                     type: object
+                    properties:
+                      size:
+                        type: integer
                   entities:
                     type: array
                     items:
@@ -121,3 +124,35 @@ components:
           type: string
       x-examples:
         example-1: {}
+    SirenLink:
+      title: SirenLink
+      type: object
+      properties:
+        rel:
+          type: array
+          items:
+            type: string
+        href:
+          type: string
+    SirenAction:
+      title: SirenAction
+      type: object
+      properties:
+        class:
+          type: string
+        href:
+          type: string
+        method:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/SirenActionField'
+    SirenActionField:
+      title: SirenActionField
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
