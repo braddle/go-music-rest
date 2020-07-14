@@ -94,3 +94,5 @@ components:
           type: integer
         origin:
           type: string
+      x-examples:
+        example-1: {}
