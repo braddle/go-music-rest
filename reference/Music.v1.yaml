@@ -180,3 +180,9 @@ components:
           type: string
         type:
           type: string
+    Album:
+      title: Album
+      type: object
+      properties:
+        id:
+          type: string
