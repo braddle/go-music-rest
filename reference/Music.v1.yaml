@@ -81,6 +81,26 @@ paths:
                                   properties:
                                     href:
                                       type: string
+            application/siren+json:
+              schema:
+                type: object
+                properties:
+                  class:
+                    type: string
+                  links:
+                    type: array
+                    items:
+                      type: object
+                  actions:
+                    type: array
+                    items:
+                      type: object
+                  properties:
+                    type: object
+                  entities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Artist'
       operationId: get-artist
       description: Get a list of artists
 components:
