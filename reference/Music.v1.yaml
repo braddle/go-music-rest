@@ -60,9 +60,9 @@ paths:
                             origin:
                               type: string
                             year_started:
-                              type: string
+                              type: integer
                             year_ended:
-                              type: string
+                              type: integer
                             _links:
                               type: object
                               properties:
@@ -79,4 +79,18 @@ paths:
       operationId: get-artist
       description: Get a list of artists
 components:
-  schemas: {}
+  schemas:
+    Artist:
+      title: Artist
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        start_year:
+          type: integer
+        end_year:
+          type: integer
+        origin:
+          type: string
