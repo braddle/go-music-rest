@@ -44,6 +44,11 @@ paths:
                             properties:
                               href:
                                 type: string
+                          self:
+                            type: object
+                            properties:
+                              href:
+                                type: string
                     type: object
                   _embedded:
                     type: object
