@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Music
+  version: '1.0'
+  contact:
+    name: Mark Bradley
+    email: braddle@gmail.com
+  description: Playing with different styles of hypermedia control
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /artist:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+                properties:
+                  _links:
+                    anyOf:
+                      - properties:
+                          next:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                          last:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                          first:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                          previous:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                    type: object
+                  _embedded:
+                    type: object
+                    properties:
+                      artist:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            image:
+                              type: string
+                            origin:
+                              type: string
+                            year_started:
+                              type: string
+                            year_ended:
+                              type: string
+                            _links:
+                              type: object
+                              properties:
+                                self:
+                                  type: object
+                                  properties:
+                                    href:
+                                      type: string
+                                albums:
+                                  type: object
+                                  properties:
+                                    href:
+                                      type: string
+      operationId: get-artist
+      description: Get a list of artists
+components:
+  schemas: {}
