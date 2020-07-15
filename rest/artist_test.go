@@ -23,6 +23,7 @@ func (s *ArtistSuite) TestNoArtistsHAL() {
 
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/artist", nil)
+	req.Header.Set("Accept", "application/hal+json")
 	h.ServeHTTP(recorder, req)
 
 	body, _ := ioutil.ReadAll(recorder.Body)
@@ -30,4 +31,19 @@ func (s *ArtistSuite) TestNoArtistsHAL() {
 	s.Equal(http.StatusOK, recorder.Code)
 	s.Equal("application/hal+json", recorder.Header().Get("Content-Type"))
 	s.JSONEq(`{"_links": {"self":{"href": "/artist"}}, "_embedded": {"artist": []}}`, string(body))
+}
+
+func (s *ArtistSuite) TestNoArtistsSIREN() {
+	h := rest.Artists{}
+
+	recorder := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/artist", nil)
+	req.Header.Set("Accept", "application/siren+json")
+	h.ServeHTTP(recorder, req)
+
+	body, _ := ioutil.ReadAll(recorder.Body)
+
+	s.Equal(http.StatusOK, recorder.Code)
+	s.Equal("application/siren+json", recorder.Header().Get("Content-Type"))
+	s.JSONEq(`{"class":["artist"], "links": [{"rel": ["self"], "href": "/artist"}], "properties": {"size": 0}}`, string(body))
 }
