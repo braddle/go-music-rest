@@ -80,3 +80,32 @@ func (s *ApplicationSuite) TestNotFound() {
 	s.Equal(url, access["request"].(string))
 	s.Equal(http.StatusNotFound, int(access["status"].(float64)))
 }
+
+func (s *ApplicationSuite) TestArtistHAL() {
+	logBuf := bytes.NewBufferString("")
+	log.SetOutput(logBuf)
+	log.SetFormatter(&log.JSONFormatter{})
+
+	router := mux.NewRouter()
+
+	app.New(router)
+
+	url := "/artist"
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, req)
+
+	body, _ := ioutil.ReadAll(recorder.Body)
+
+	s.Equal(http.StatusOK, recorder.Code)
+	s.JSONEq(`{"_links": {"self":{"href": "/artist"}}, "_embedded": {"artist": []}}`, string(body))
+
+	access := make(map[string]interface{})
+	sc := bufio.NewScanner(logBuf)
+	sc.Scan()
+
+	json.Unmarshal(sc.Bytes(), &access)
+
+	s.Equal(url, access["request"].(string))
+	s.Equal(http.MethodGet, access["method"].(string))
+}
