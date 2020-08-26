@@ -8,8 +8,6 @@ wait_for_postgres() {
     local PSQL_ATTEMPTS_MAX
     local PSQL_RET
 
-    export PGPASSWORD="${DB_PASSWORD}"
-
     PSQL_ATTEMPTS=0
     PSQL_ATTEMPTS_DELAY=3
     PSQL_ATTEMPTS_MAX=10
@@ -20,11 +18,7 @@ wait_for_postgres() {
     until [ "${PSQL_ATTEMPTS}" -ge "${PSQL_ATTEMPTS_MAX}" ] || [ "${PSQL_RET}" -eq 0 ]; do
         set +e
         echo "Pinging Postgres"
-        /usr/bin/psql \
-            -h "${DB_HOST}" \
-            -U "${DB_USER}" \
-            "${DB_NAME}" \
-            -c "select 1"
+        /usr/bin/psql "${DATABASE_URL}" -c "select 1"
         PSQL_RET=$?
         set -e
 
