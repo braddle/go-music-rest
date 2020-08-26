@@ -14,3 +14,9 @@ docker_build_test:
 
 docker_run:
 	docker run --publish 8080:8080 template
+
+build:
+	go build -o http-service .
+
+local: docker_build_test
+	docker-compose up

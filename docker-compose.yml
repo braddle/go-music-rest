@@ -7,5 +7,22 @@ services:
     image: template_test
     environment:
       PORT: 8080
+      DB_USER: tester
+      DB_PASSWORD: testing
+      DB_NAME: music
+      DB_HOST: db
+      DB_PORT: 5432
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+    entrypoint: "bin/entrypoint.sh 2>&1"
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: tester
+      POSTGRES_PASSWORD: testing
+      POSTGRES_DB: music
