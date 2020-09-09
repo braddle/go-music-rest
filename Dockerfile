@@ -22,6 +22,6 @@ COPY --from=build /service/bin/entrypoint.sh .
 
 RUN chmod +x /http-service
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 8080
