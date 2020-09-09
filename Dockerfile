@@ -18,7 +18,7 @@ FROM alpine:latest as production
 
 RUN apk --no-cache add ca-certificates
 COPY --from=build http-service .
-COPY --from=build migrations .
+COPY --from=build /service/migrations .
 COPY --from=build /service/bin/entrypoint.sh .
 
 RUN chmod +x /http-service
