@@ -1,8 +1,11 @@
 package app
 
 import (
+	"database/sql"
 	"net/http"
 	"time"
+
+	"github.com/braddle/go-http-template/artist"
 
 	"github.com/braddle/go-http-template/accesslog"
 	"github.com/braddle/go-http-template/clock"
@@ -12,11 +15,12 @@ import (
 )
 
 type App struct {
-	r *mux.Router
+	r  *mux.Router
+	db *sql.DB
 }
 
-func New(r *mux.Router) *App {
-	a := &App{r: r}
+func New(r *mux.Router, db *sql.DB) *App {
+	a := &App{r, db}
 	a.init()
 
 	return a
@@ -51,5 +55,5 @@ func (a *App) getNotFoundHandle() http.Handler {
 }
 
 func (a *App) getArtistHandler() http.Handler {
-	return rest.Artists{}
+	return rest.Artists{R: artist.NewRepository(a.db)}
 }

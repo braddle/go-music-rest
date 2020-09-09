@@ -1,9 +1,16 @@
 package artist
 
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Repository struct {
 	db *sql.DB
+}
+
+type ArtistFinder interface {
+	FindAll(f Filter) ArtistCollection
 }
 
 func NewRepository(db *sql.DB) Repository {
@@ -13,16 +20,34 @@ func NewRepository(db *sql.DB) Repository {
 type Filter struct{}
 
 func (r Repository) FindAll(f Filter) ArtistCollection {
-	return ArtistCollection{}
+	rows, _ := r.db.Query("SELECT name, genres, image, year_started FROM artist")
+	ac := ArtistCollection{}
+
+	for rows.Next() {
+		fmt.Println("SCANNING")
+		a := Artist{}
+		rows.Scan(&a.Name, &a.Genre, &a.Image, &a.Started)
+
+		ac.a = append(ac.a, a)
+	}
+
+	return ac
 }
 
-type ArtistCollection struct{}
-type Artist struct{}
+type ArtistCollection struct {
+	a []Artist
+}
+type Artist struct {
+	Name    string
+	Image   string
+	Genre   string
+	Started int
+}
 
 func (c ArtistCollection) Total() int {
-	return 0
+	return len(c.a)
 }
 
 func (c ArtistCollection) Collection() []Artist {
-	return []Artist{}
+	return c.a
 }

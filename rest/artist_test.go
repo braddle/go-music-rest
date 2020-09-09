@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/braddle/go-http-template/artist"
+
 	"github.com/braddle/go-http-template/rest"
 	"github.com/stretchr/testify/suite"
 )
@@ -19,7 +21,7 @@ func TestArtistsSuite(t *testing.T) {
 }
 
 func (s *ArtistSuite) TestNoArtistsHAL() {
-	h := rest.Artists{}
+	h := rest.Artists{dummieArtistRepository{}}
 
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/artist", nil)
@@ -34,7 +36,7 @@ func (s *ArtistSuite) TestNoArtistsHAL() {
 }
 
 func (s *ArtistSuite) TestNoArtistsSIREN() {
-	h := rest.Artists{}
+	h := rest.Artists{dummieArtistRepository{}}
 
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/artist", nil)
@@ -46,4 +48,10 @@ func (s *ArtistSuite) TestNoArtistsSIREN() {
 	s.Equal(http.StatusOK, recorder.Code)
 	s.Equal("application/siren+json", recorder.Header().Get("Content-Type"))
 	s.JSONEq(`{"class":["artist"], "links": [{"rel": ["self"], "href": "/artist"}], "properties": {"size": 0}}`, string(body))
+}
+
+type dummieArtistRepository struct{}
+
+func (d dummieArtistRepository) FindAll(f artist.Filter) artist.ArtistCollection {
+	return artist.ArtistCollection{}
 }

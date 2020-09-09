@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
+	artist2 "github.com/braddle/go-http-template/artist"
+
 	"github.com/dominicbarnes/go-siren"
 
 	"github.com/RichardKnop/jsonhal"
 )
 
 type Artists struct {
+	R artist2.ArtistFinder
 }
 
 type halArtist struct {
@@ -20,6 +23,8 @@ type artist struct{}
 
 func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	var b []byte
+
+	h.R.FindAll(artist2.Filter{})
 
 	if req.Header.Get("Accept") == "application/siren+json" {
 		e := siren.Entity{

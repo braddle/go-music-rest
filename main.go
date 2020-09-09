@@ -37,6 +37,6 @@ func main() {
 	migrator.Steps(2)
 
 	log.Print("Stating Application")
-	a := app.New(mux.NewRouter())
+	a := app.New(mux.NewRouter(), db)
 	log.Fatal(a.Run(":" + os.Getenv("PORT")))
 }
