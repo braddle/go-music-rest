@@ -2,6 +2,7 @@ package e2e_test
 
 import (
 	"database/sql"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -30,7 +31,11 @@ func (s *ArtistSIRENSuite) TestEmptyArtists() {
 	s.Equal(http.StatusOK, resp.StatusCode)
 	s.Equal("application/siren+json", resp.Header.Get("Content-Type"))
 
-	expBody := `{"class":["artist"], "links": [{"rel": ["self"], "href": "/artist"}], "properties": {"size": 0}}`
+	expBody := `{
+	"class":["artist"], 
+	"links": [{"rel": ["self"], "href": "/artist"}], 
+	"properties": {"size": 0}
+}`
 	actBody, _ := ioutil.ReadAll(resp.Body)
 
 	s.JSONEq(expBody, string(actBody))
@@ -60,8 +65,37 @@ func (s *ArtistSIRENSuite) TestManyArtists() {
 	s.Equal(http.StatusOK, resp.StatusCode)
 	s.Equal("application/siren+json", resp.Header.Get("Content-Type"))
 
-	expBody := `{"class":["artist"], "links": [{"rel": ["self"], "href": "/artist"}], "properties": {"size": 2}}`
+	expBody := `{
+	"class":["artist"], 
+	"links": [{"rel": ["self"], "href": "/artist"}], 
+	"properties": {"size": 2},
+	"entities": [
+		{
+			"properties" : {
+				"name": "Slipknot",
+				"image": "slipknot.jpg",
+				"genre": "Nu Metal",
+				"started": 1995
+			},
+			"rel": null
+		},
+		{
+			"properties" : {
+				"name": "Limp Bizkit",
+				"image": "limp-bizkit.jpg",
+				"genre": "Nu Metal",
+				"started": 1994
+			},
+			"rel": null
+		}
+	]
+}`
 	actBody, _ := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(expBody)
+	fmt.Println("___________________________")
+
+	fmt.Println(string(actBody))
 
 	s.JSONEq(expBody, string(actBody))
 }

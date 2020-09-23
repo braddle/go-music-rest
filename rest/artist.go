@@ -37,6 +37,27 @@ func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 			},
 			Entities: []siren.EmbeddedEntity{},
 		}
+
+		for _, a := range ac.Collection() {
+			ee := siren.EmbeddedEntity{
+				Entity: siren.Entity{
+					//Entities:   nil,
+					//Links:      nil,
+					//Actions:    nil,
+					Properties: siren.Properties{
+						"name":    a.Name,
+						"image":   a.Image,
+						"genre":   a.Genre,
+						"started": a.Started,
+					},
+					//Title:      "",
+					//Class:      nil,
+				},
+				//Rel:    nil,
+				//Href:   "",
+			}
+			e.Entities = append(e.Entities, ee)
+		}
 		b, _ = json.Marshal(e)
 		resp.Header().Set("Content-Type", "application/siren+json")
 	} else {
