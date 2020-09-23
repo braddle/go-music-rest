@@ -2,7 +2,6 @@ package e2e_test
 
 import (
 	"database/sql"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -91,11 +90,6 @@ func (s *ArtistSIRENSuite) TestManyArtists() {
 	]
 }`
 	actBody, _ := ioutil.ReadAll(resp.Body)
-
-	fmt.Println(expBody)
-	fmt.Println("___________________________")
-
-	fmt.Println(string(actBody))
 
 	s.JSONEq(expBody, string(actBody))
 }
