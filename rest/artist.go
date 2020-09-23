@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	artist2 "github.com/braddle/go-http-template/artist"
+	"github.com/braddle/go-http-template/artist"
 
 	"github.com/dominicbarnes/go-siren"
 
@@ -12,19 +12,17 @@ import (
 )
 
 type Artists struct {
-	R artist2.ArtistFinder
+	R artist.ArtistFinder
 }
 
 type halArtist struct {
 	jsonhal.Hal
 }
 
-type artist struct{}
-
 func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	var b []byte
 
-	ac := h.R.FindAll(artist2.Filter{})
+	ac := h.R.FindAll(artist.Filter{})
 
 	if req.Header.Get("Accept") == "application/siren+json" {
 		e := siren.Entity{
@@ -62,7 +60,7 @@ func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Set("Content-Type", "application/siren+json")
 	} else {
 		a := halArtist{}
-		a.SetEmbedded("artist", jsonhal.Embedded([]*artist{}))
+		a.SetEmbedded("artist", jsonhal.Embedded([]*artist.Artist{}))
 		a.SetLink("self", req.URL.Path, "")
 		b, _ = json.Marshal(a)
 		resp.Header().Set("Content-Type", "application/hal+json")

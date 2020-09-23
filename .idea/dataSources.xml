@@ -6,6 +6,10 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jcdb:postgres://dnxpxrlcwwxtrz:6d84ee3ef1fbcbc85da47165ec85280dd5a414b2ec69653ecb489c59b40a828c@ec2-52-207-124-89.compute-1.amazonaws.com:5432/d6imo313lic5cd</jdbc-url>
+      <driver-properties>
+        <property name="ssl" value="true" />
+        <property name="sslmode" value="verify-ca" />
+      </driver-properties>
     </data-source>
   </component>
 </project>
