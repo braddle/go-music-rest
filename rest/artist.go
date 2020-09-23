@@ -24,7 +24,7 @@ type artist struct{}
 func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	var b []byte
 
-	h.R.FindAll(artist2.Filter{})
+	ac := h.R.FindAll(artist2.Filter{})
 
 	if req.Header.Get("Accept") == "application/siren+json" {
 		e := siren.Entity{
@@ -33,7 +33,7 @@ func (h Artists) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 				{Rel: siren.Rels{"self"}, Href: siren.Href(req.URL.Path)},
 			},
 			Properties: siren.Properties{
-				"size": 0,
+				"size": ac.Total(),
 			},
 			Entities: []siren.EmbeddedEntity{},
 		}

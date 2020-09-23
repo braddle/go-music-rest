@@ -2,7 +2,6 @@ package artist
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 type Repository struct {
@@ -24,7 +23,6 @@ func (r Repository) FindAll(f Filter) ArtistCollection {
 	ac := ArtistCollection{}
 
 	for rows.Next() {
-		fmt.Println("SCANNING")
 		a := Artist{}
 		rows.Scan(&a.Name, &a.Genre, &a.Image, &a.Started)
 
